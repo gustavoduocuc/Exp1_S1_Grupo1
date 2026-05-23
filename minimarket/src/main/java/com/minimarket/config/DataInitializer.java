@@ -1,7 +1,11 @@
 package com.minimarket.config;
 
+import com.minimarket.entity.Categoria;
+import com.minimarket.entity.Producto;
 import com.minimarket.entity.Rol;
 import com.minimarket.entity.Usuario;
+import com.minimarket.repository.CategoriaRepository;
+import com.minimarket.repository.ProductoRepository;
 import com.minimarket.repository.RolRepository;
 import com.minimarket.service.UsuarioService;
 import org.springframework.boot.CommandLineRunner;
@@ -13,10 +17,17 @@ import java.util.Set;
 public class DataInitializer implements CommandLineRunner {
 
     private final RolRepository rolRepository;
+    private final CategoriaRepository categoriaRepository;
+    private final ProductoRepository productoRepository;
     private final UsuarioService usuarioService;
 
-    public DataInitializer(RolRepository rolRepository, UsuarioService usuarioService) {
+    public DataInitializer(RolRepository rolRepository,
+                           CategoriaRepository categoriaRepository,
+                           ProductoRepository productoRepository,
+                           UsuarioService usuarioService) {
         this.rolRepository = rolRepository;
+        this.categoriaRepository = categoriaRepository;
+        this.productoRepository = productoRepository;
         this.usuarioService = usuarioService;
     }
 
@@ -35,6 +46,14 @@ public class DataInitializer implements CommandLineRunner {
         createUser("gerente", "gerente123", gerente);
         createUser("empleado", "empleado123", empleado);
         createUser("cliente", "cliente123", cliente);
+
+        Categoria bebidas = createCategoria("Bebidas");
+        Categoria lacteos = createCategoria("Lacteos");
+        Categoria abarrotes = createCategoria("Abarrotes");
+
+        createProducto("Leche entera 1L", 1200.0, 50, lacteos);
+        createProducto("Agua mineral 500ml", 800.0, 100, bebidas);
+        createProducto("Arroz 1kg", 1500.0, 30, abarrotes);
     }
 
     private Rol createRole(String nombre) {
@@ -49,5 +68,20 @@ public class DataInitializer implements CommandLineRunner {
         usuario.setPassword(password);
         usuario.setRoles(Set.of(rol));
         usuarioService.save(usuario);
+    }
+
+    private Categoria createCategoria(String nombre) {
+        Categoria categoria = new Categoria();
+        categoria.setNombre(nombre);
+        return categoriaRepository.save(categoria);
+    }
+
+    private void createProducto(String nombre, Double precio, Integer stock, Categoria categoria) {
+        Producto producto = new Producto();
+        producto.setNombre(nombre);
+        producto.setPrecio(precio);
+        producto.setStock(stock);
+        producto.setCategoria(categoria);
+        productoRepository.save(producto);
     }
 }

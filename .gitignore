@@ -1,0 +1,44 @@
+# Maven / Gradle
+target/
+!.mvn/wrapper/maven-wrapper.jar
+build/
+out/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Secretos y configuración local (no commitear credenciales)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+**/application-local.properties
+**/application-*.local.properties
+**/secrets.properties
+
+# Reportes de tests generados
+**/surefire-reports/
+**/failsafe-reports/
+**/jacoco.exec
+**/site/
