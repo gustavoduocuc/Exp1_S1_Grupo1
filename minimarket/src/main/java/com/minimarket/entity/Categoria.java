@@ -1,5 +1,6 @@
 package com.minimarket.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Categoria {
     @Column(nullable = false, unique = true)
     private String nombre;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Producto> productos;
 
